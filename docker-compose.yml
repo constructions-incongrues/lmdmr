@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  liquidsoap:
+    image: nullfunction/liquidsoap
+    volumes:
+      - ./config:/etc/liquidsoap
+      - ./files:/var/lib/files
+    links:
+      - icecast
+  icecast:
+    image: infiniteproject/icecast
+    ports:
+      - 8000:8000
+    environment:
+      - ICECAST_SOURCE_PASSWORD=icecast_source
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 8080:80
+    volumes:
+      - ./public:/usr/share/nginx/html
